@@ -1,16 +1,66 @@
-# React + Vite
+# GreenEats – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Single Page Application em React (Vite) para gerenciar o catálogo de produtos do GreenEats. A interface consome a API Node/Express integrada ao Airtable descrita no backend e oferece listagem, filtros, cadastro, edição, exclusão e validação de produtos.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Vite + React 19 (JavaScript)
+- Axios para chamadas HTTP
+- CSS global customizado (sem Tailwind/Bootstrap)
 
-## React Compiler
+## Requisitos
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Node.js 18+
+- npm 9+
+- Backend GreenEats em execução ou endpoint compatível
 
-## Expanding the ESLint configuration
+## Configuração
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+git clone <repo>
+cd GreenEats-FrontEnd
+npm install
+cp .env.example .env # ajuste a URL da API
+```
+
+Edite `.env` e defina:
+
+```
+VITE_API_URL=http://localhost:3000
+```
+
+## Scripts
+
+- `npm run dev` – ambiente de desenvolvimento com Vite
+- `npm run build` – build de produção para `dist/`
+- `npm run preview` – pré-visualiza o build localmente
+
+## Deploy na Vercel
+
+1. Instale a CLI (opcional): `npm i -g vercel`
+2. Faça login: `vercel login`
+3. Configure variáveis em **Project Settings → Environment Variables**:
+	- `VITE_API_URL` → URL pública do backend (ex.: `https://api.greeneats.com`)
+4. Deploy inicial:
+	```bash
+	vercel --prod
+	```
+	ou conecte o repositório no dashboard da Vercel; o arquivo `vercel.json` já define:
+	- build: `npm run build`
+	- output: `dist`
+	- framework: Vite
+5. Após cada push para a branch monitorada (ex.: `main`), a Vercel reconstruirá automaticamente. Lembre-se de manter `VITE_API_URL` definido em todos os ambientes (Development / Preview / Production) para que o frontend saiba onde buscar a API.
+
+## Estrutura
+
+```
+src/
+  App.jsx
+  main.jsx
+  pages/ProdutosPage.jsx
+  components/
+  services/api.js
+  styles/global.css
+```
+
+Os componentes seguem responsabilidades isoladas (Header, Filters, Grid, Form Modal, etc.), e toda a lógica de dados fica centralizada em `ProdutosPage` + `services/api.js`.
