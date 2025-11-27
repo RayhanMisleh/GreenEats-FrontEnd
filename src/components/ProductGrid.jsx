@@ -30,6 +30,17 @@ const getCategoryVariant = (categoria) => {
   return `category-${categoria.toLowerCase()}`;
 };
 
+const getCategoryClassName = (categoria) => {
+  if (!categoria) return 'default';
+  return categoria.toLowerCase();
+};
+
+const categoryIcons = {
+  Fruta: '🍊',
+  Legume: '🥕',
+  Verdura: '🥬'
+};
+
 const truncate = (text, limit = 140) => {
   if (!text) return '';
   return text.length > limit ? `${text.slice(0, limit)}…` : text;
@@ -39,35 +50,64 @@ const ProductGrid = ({ produtos, onEdit, onDelete }) => {
   return (
     <section className="product-grid">
       {produtos.map((produto) => (
-        <article key={produto.id} className="product-card">
-          <header>
-            <div className="product-card__title">{produto.titulo}</div>
-            <div className="product-card__meta">
-              <Badge
-                label={produto.categoria}
-                variant={getCategoryVariant(produto.categoria)}
-              />
-              {isProductNew(produto.dataCriacao) && (
-                <Badge label="Novo" variant="status-novo" />
-              )}
+        <article
+          key={produto.id}
+          className={`product-card product-card--${getCategoryClassName(produto.categoria)}`}
+        >
+          <div className="product-card__hero">
+            <div className="product-card__hero-left">
+              <span className="product-card__icon" role="img" aria-label={produto.categoria}>
+                {categoryIcons[produto.categoria] || '🌿'}
+              </span>
+              <div>
+                <p className="product-card__label">Categoria</p>
+                <h3>{produto.categoria || '—'}</h3>
+              </div>
             </div>
-          </header>
-
-          <p className="product-card__description">{truncate(produto.descricao)}</p>
-
-          <div className="product-card__details">
-            <span>Preço: {currencyFormatter.format(Number(produto.preco) || 0)}</span>
-            <span>Estoque: {produto.estoque ?? '—'}</span>
-            <span>Criado em: {formatDate(produto.dataCriacao)}</span>
+            <div className="product-card__hero-right">
+              <p className="product-card__label">Preço</p>
+              <strong>{currencyFormatter.format(Number(produto.preco) || 0)}</strong>
+            </div>
           </div>
 
-          <div className="product-card__actions">
-            <button type="button" className="btn btn--ghost" onClick={() => onEdit(produto)}>
-              Editar
-            </button>
-            <button type="button" className="btn btn--danger" onClick={() => onDelete(produto)}>
-              Excluir
-            </button>
+          <div className="product-card__body">
+            <header className="product-card__header">
+              <h2 className="product-card__title">{produto.titulo}</h2>
+              <div className="product-card__meta">
+                <Badge
+                  label={produto.categoria}
+                  variant={getCategoryVariant(produto.categoria)}
+                />
+                {isProductNew(produto.dataCriacao) && (
+                  <Badge label="Novo" variant="status-novo" />
+                )}
+              </div>
+            </header>
+
+            <p className="product-card__description">
+              <span className="product-card__label">Descrição</span>
+              {truncate(produto.descricao)}
+            </p>
+
+            <div className="product-card__stats">
+              <div>
+                <p className="product-card__label">Estoque</p>
+                <strong>{produto.estoque ?? '—'}</strong>
+              </div>
+              <div>
+                <p className="product-card__label">Criado em</p>
+                <strong>{formatDate(produto.dataCriacao)}</strong>
+              </div>
+            </div>
+
+            <div className="product-card__actions">
+              <button type="button" className="btn btn--ghost" onClick={() => onEdit(produto)}>
+                Editar
+              </button>
+              <button type="button" className="btn btn--danger" onClick={() => onDelete(produto)}>
+                Excluir
+              </button>
+            </div>
           </div>
         </article>
       ))}

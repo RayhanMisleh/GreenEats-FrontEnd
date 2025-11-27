@@ -12,7 +12,6 @@
   --yellow-500: #eab308;
   --blue-gray-600: #475569;
   --gray-100: #f1f5f9;
-  --gray-300: #cbd5f5;
   --danger: #dc2626;
   --shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
 }
@@ -150,6 +149,11 @@ textarea.input-control {
   flex-wrap: wrap;
 }
 
+.filters-bar__field {
+  flex: 1;
+  min-width: 220px;
+}
+
 .filters-bar__label {
   display: block;
   margin-bottom: 0.35rem;
@@ -163,30 +167,98 @@ textarea.input-control {
   gap: 0.75rem;
 }
 
-.filters-bar__field {
-  flex: 1;
-  min-width: 220px;
-}
-
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
 }
 
 .product-card {
   background: #fff;
-  border-radius: 20px;
+  border-radius: 28px;
   box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 30px 55px rgba(15, 23, 42, 0.18);
+}
+
+.product-card__hero {
   padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  background: linear-gradient(120deg, var(--green-500), #3ecf8e);
+}
+
+.product-card__hero-left {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+}
+
+.product-card__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.product-card__label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+  margin-bottom: 0.15rem;
+}
+
+.product-card__hero-right {
+  text-align: right;
+}
+
+.product-card__hero-right strong {
+  font-size: 1.4rem;
+}
+
+.product-card--fruta .product-card__hero {
+  background: linear-gradient(120deg, #f97316, #fb923c);
+}
+
+.product-card--legume .product-card__hero {
+  background: linear-gradient(120deg, #eab308, #fde047);
+  color: #1c1917;
+}
+
+.product-card--verdura .product-card__hero {
+  background: linear-gradient(120deg, #0c8a43, #22c55e);
+}
+
+.product-card__body {
+  padding: 1.75rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  position: relative;
+}
+
+.product-card__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
 }
 
 .product-card__title {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 700;
   color: #0f172a;
 }
@@ -202,20 +274,33 @@ textarea.input-control {
   color: #475569;
   font-size: 0.95rem;
   line-height: 1.5;
+  background: #f8fafc;
+  border-radius: 18px;
+  padding: 1rem 1.2rem;
 }
 
-.product-card__details {
+.product-card__description .product-card__label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #0f172a;
+}
+
+.product-card__stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 0.75rem;
-  font-size: 0.9rem;
-  color: #475569;
+}
+
+.product-card__stats strong {
+  font-size: 1.1rem;
+  color: #0f172a;
 }
 
 .product-card__actions {
   display: flex;
   justify-content: space-between;
   gap: 0.75rem;
+  margin-top: 0.5rem;
 }
 
 .badge {
